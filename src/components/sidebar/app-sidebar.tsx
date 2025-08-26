@@ -82,8 +82,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     tooltip={{
                       children: (
                         <div className="flex flex-col">
-                          <span className="font-medium">{item.title}</span>
-                          <span className="text-xs text-gray-300">
+                          <span className="font-extrabold text-foreground ">
+                            {item.title}
+                          </span>
+                          <span className="text-xs text-foreground">
                             Drag and drop into the canvas
                           </span>
                         </div>
@@ -91,11 +93,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       hidden: false,
                       className: "text-white shadow-lg px-3 py-2 rounded",
                     }}
-                    onClick={() => {}}
-                    className="px-2.5 md:px-2 bg-slate-200 text-slate-400 hover:bg-slate-300 cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                    className="px-2.5 md:px-2 bg-sidebar border-sidebar-border border-2 text-chart-1 hover:bg-border cursor-pointer  justify-center"
                   >
-                    <item.icon className="text-gray-600" />
-                    <span>{item.title}</span>
+                    <item.icon className="text-destructive" />
+                    {/* <span>{item.title}</span> */}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

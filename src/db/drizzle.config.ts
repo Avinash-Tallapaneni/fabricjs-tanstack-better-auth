@@ -1,11 +1,14 @@
 import { defineConfig } from "drizzle-kit";
-import { env } from "@/env";
+import { serverEnv } from "@/env/env.server";
+import path from "path";
+
+const schemaPath = path.resolve(__dirname, "./src/schemas/index.ts");
 
 export default defineConfig({
-  schema: "./src/schemas/index.ts",
-  out: "./migrations",
+  schema: schemaPath,
+  out: path.resolve(__dirname, "../../migrations"),
   dialect: "postgresql",
   dbCredentials: {
-    url: env.AUTH_DRIZZLE_URL,
+    url: serverEnv.AUTH_DRIZZLE_URL,
   },
 });
