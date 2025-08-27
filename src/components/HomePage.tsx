@@ -1,20 +1,24 @@
 import { Link } from "@tanstack/react-router";
+import { Sparkles } from "lucide-react";
 
-export function NotFound({ children }: { children?: any }) {
+export function HomePage({ children }: { children?: any }) {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-muted">
       <div className="max-w-xl w-full space-y-8 text-center relative">
+        {/* Animated background elements */}
+        <div className="absolute -top-10 -left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-secondary/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+
         {/* Header Section */}
-        <div className="space-y-4">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-destructive/15 rounded-full">
-            <span className="text-4xl text-destructive font-bold">404</span>
+        <div className="space-y-4 relative">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-full shadow-lg">
+            <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-foreground tracking-tight">
-            Page Not Found
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">
+            Welcome to the FabricJS Hub
           </h1>
-          <p className="text-lg text-muted-foreground max-w-md mx-auto">
-            {children ||
-              "The page you're looking for doesn't exist or has been moved."}
+          <p className="text-muted-foreground">
+            Your next masterpiece is a few clicks away.
           </p>
         </div>
 

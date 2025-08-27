@@ -1,7 +1,4 @@
-import CustomEditor from "@/components/editor/custom-editor";
-import DefaultEditor from "@/components/editor/default-editor";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { HomePage } from "@/components/HomePage";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -9,13 +6,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  return (
-    <SidebarProvider className="h-screen flex">
-      <AppSidebar />
-      <div className="flex flex-1 overflow-hidden">
-        <CustomEditor />
-        <DefaultEditor />
-      </div>
-    </SidebarProvider>
-  );
+  return <HomePage />;
 }

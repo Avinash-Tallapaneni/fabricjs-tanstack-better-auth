@@ -1,20 +1,22 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "@tanstack/react-router";
 import { authClient } from "@/lib/auth-client";
+import { Link, useRouter } from "@tanstack/react-router";
+import {
+  Cpu,
+  Loader2,
+  Lock,
+  Palette,
+  Shield,
+  Sparkles,
+  User,
+} from "lucide-react";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export function SignUpForm() {
+  const router = useRouter();
   const [loading, setLoading] = useState({
     email: false,
     github: false,
@@ -87,6 +89,13 @@ export function SignUpForm() {
             toast.success(
               "Account created successfully! Please check your email to verify your account."
             );
+
+            router.navigate({
+              to: "/protectedroute/$id",
+              params: {
+                id: "dashboard",
+              },
+            });
           },
           onError: (ctx) => {
             toast.error(ctx.error.message || "Failed to create account");
@@ -101,27 +110,50 @@ export function SignUpForm() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Create an account</CardTitle>
-          <CardDescription>
-            Sign up with your GitHub or Google account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleEmailSignUp}>
-            <div className="grid gap-6">
-              <div className="flex flex-col gap-4">
+    <div className="w-full flex flex-col lg:flex-row lg:rounded-3xl lg:overflow-hidden lg:shadow-2xl">
+      {/* Left Panel - Form */}
+      <div className="w-full lg:w-[55%] flex items-center justify-center p-6 bg-background">
+        <div className="max-w-md w-full space-y-8 relative">
+          {/* Animated background elements */}
+          <div className="absolute -top-10 -left-10 w-20 h-20 bg-primary/10 rounded-full blur-xl animate-pulse"></div>
+          <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-secondary/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+
+          {/* Header Section */}
+          <div className="space-y-4 text-center relative">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-full shadow-lg">
+              <User className="w-8 h-8 text-white" />
+              <Sparkles className="w-4 h-4 text-foreground absolute -top-1 -right-1" />
+            </div>
+            <h1 className="text-3xl font-bold text-foreground tracking-tight">
+              Join the Creative Community
+            </h1>
+            <p className="text-muted-foreground flex items-center justify-center gap-1">
+              Start your journey today!
+              <Sparkles className="w-4 h-4 text-secondary fill-secondary" />
+            </p>
+          </div>
+
+          {/* Sign Up Card */}
+          <div className="bg-card border border-border rounded-2xl p-8 shadow-lg relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute -top-4 -right-4 w-8 h-8 bg-primary/20 rounded-full"></div>
+            <div className="absolute -bottom-4 -left-4 w-10 h-10 bg-secondary/20 rounded-full"></div>
+
+            <form
+              onSubmit={handleEmailSignUp}
+              className="space-y-6 relative z-10"
+            >
+              {/* Social Sign Up with improved buttons */}
+              <div className="grid grid-cols-2 gap-3">
                 <Button
                   variant="outline"
-                  className="w-full"
                   type="button"
                   onClick={() => handleSocialSignUp("github")}
                   disabled={true}
+                  className="flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {loading.github ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -134,23 +166,23 @@ export function SignUpForm() {
                       />
                     </svg>
                   )}
-                  Sign up with GitHub
+                  GitHub
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="w-full"
                   type="button"
                   onClick={() => handleSocialSignUp("google")}
                   disabled={loading.google}
+                  className="flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {loading.google ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
-                      className="mr-2 h-4 w-4"
+                      className="h-4 w-4"
                     >
                       <path
                         d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
@@ -158,104 +190,187 @@ export function SignUpForm() {
                       />
                     </svg>
                   )}
-                  Sign up with Google
+                  Google
                 </Button>
               </div>
 
-              <div className="relative text-center text-sm">
+              <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
+                  <span className="bg-card px-2 text-muted-foreground">
+                    Or continue with email
                   </span>
                 </div>
               </div>
 
-              <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="name">Name</Label>
+              {/* Email Sign Up with input fields */}
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-sm font-medium">
+                    Name
+                  </Label>
                   <Input
                     id="name"
-                    name="name"
                     type="text"
+                    name="name"
                     placeholder="John Doe"
                     required
                     disabled={loading.email}
+                    className="bg-background transition-all focus:ring-2 focus:ring-ring focus:border-ring"
                   />
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm font-medium">
+                    Email
+                  </Label>
                   <Input
                     id="email"
-                    name="email"
                     type="email"
-                    placeholder="hello@example.com"
+                    name="email"
+                    placeholder="m@example.com"
                     required
                     disabled={loading.email}
+                    className="bg-background transition-all focus:ring-2 focus:ring-ring focus:border-ring"
                   />
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium">
+                    Password
+                  </Label>
                   <Input
                     id="password"
-                    name="password"
                     type="password"
+                    name="password"
                     placeholder="Password (min. 6 characters)"
                     required
                     minLength={6}
                     disabled={loading.email}
+                    className="bg-background transition-all focus:ring-2 focus:ring-ring focus:border-ring"
                   />
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="confirm_password">Confirm Password</Label>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="confirm_password"
+                    className="text-sm font-medium"
+                  >
+                    Confirm Password
+                  </Label>
                   <Input
                     id="confirm_password"
-                    name="confirm_password"
                     type="password"
+                    name="confirm_password"
                     placeholder="Confirm Password"
                     required
                     disabled={loading.email}
+                    className="bg-background transition-all focus:ring-2 focus:ring-ring focus:border-ring"
                   />
                 </div>
+
                 <Button
                   type="submit"
-                  className="bg-accent text-accent-foreground hover:bg-accent/90 border border-accent/20 font-medium px-4 py-3 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all hover:shadow-md hover:scale-[1.01] active:scale-[0.99]"
                   disabled={loading.email}
                 >
                   {loading.email && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   {loading.email ? "Creating account..." : "Sign up"}
+                  <Sparkles className="ml-1 h-4 w-4" />
                 </Button>
               </div>
+            </form>
 
-              <div className="text-center text-sm">
-                Already have an account?{" "}
-                <Link
-                  to="/sign-in"
-                  className="underline underline-offset-4 hover:text-primary"
-                  onClick={(e) => loading.email && e.preventDefault()}
-                >
-                  Login
-                </Link>
+            <div className="mt-6 text-center text-sm">
+              Already have an account?{" "}
+              <Link
+                to="/sign-in"
+                className="text-primary hover:underline font-medium transition-colors"
+                onClick={(e) => loading.email && e.preventDefault()}
+              >
+                Login
+              </Link>
+            </div>
+          </div>
+
+          {/* Tech Stack Badges with animation */}
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2">
+              <span className="text-xs text-muted-foreground">Powered by</span>
+              <div className="flex flex-wrap items-center justify-center gap-1">
+                <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded transition-all hover:bg-primary/30 cursor-default">
+                  Fabric.js
+                </span>
+                <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded transition-all hover:bg-primary/30 cursor-default">
+                  Tanstack start
+                </span>
+                <span className="bg-primary/20 text-primary text-xs px-2 py-1 rounded transition-all hover:bg-primary/30 cursor-default">
+                  Better Auth
+                </span>
               </div>
             </div>
-          </form>
-        </CardContent>
-      </Card>
+          </div>
+        </div>
+      </div>
 
-      <div className="text-center text-xs text-muted-foreground">
-        By clicking continue, you agree to our{" "}
-        <a href="#" className="underline underline-offset-4 hover:text-primary">
-          Terms of Service
-        </a>{" "}
-        and{" "}
-        <a href="#" className="underline underline-offset-4 hover:text-primary">
-          Privacy Policy
-        </a>
-        .
+      {/* Right Panel - Project Info */}
+      <div className="hidden lg:flex lg:w-[45%] bg-sidebar flex-col justify-center p-8 lg:p-12">
+        <div className="max-w-md mx-auto space-y-8">
+          <div className="space-y-4">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-primary/20 rounded-full">
+              <Lock className="w-10 h-10 text-primary" />
+            </div>
+            <h2 className="text-2xl font-bold text-foreground">
+              Your Creative Hub Awaits
+            </h2>
+            <p className="text-muted-foreground">
+              Get started on your next masterpiece with our powerful tools.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="bg-primary/20 p-2 rounded-lg mt-1">
+                <Palette className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">Canvas Editor</h3>
+                <p className="text-muted-foreground text-sm">
+                  Create and edit designs with our powerful Fabric.js based
+                  editor.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="bg-primary/20 p-2 rounded-lg mt-1">
+                <Cpu className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">Modern Stack</h3>
+                <p className="text-muted-foreground text-sm">
+                  Built with the latest technologies for optimal performance.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="bg-primary/20 p-2 rounded-lg mt-1">
+                <Shield className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">
+                  Protected Routes
+                </h3>
+                <p className="text-muted-foreground text-sm">
+                  Your work is secure with authentication-required protected
+                  routes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
