@@ -9,11 +9,9 @@ import {
 } from "lucide-react";
 import * as React from "react";
 
-import { NavUser } from "@/components/sidebar/nav-user";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -21,6 +19,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  handleDrag: (
+    e: React.DragEvent<HTMLButtonElement>,
+    title: navElementItems
+  ) => void;
+}
 
 const navMainData = [
   {
@@ -47,9 +52,11 @@ const navMainData = [
     title: "Video",
     icon: Video,
   },
-];
+] as const;
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export type navElementItems = (typeof navMainData)[number]["title"];
+
+export function AppSidebar({ handleDrag, ...props }: AppSidebarProps) {
   return (
     <Sidebar
       collapsible="none"
@@ -96,6 +103,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     onClick={(e) => {
                       e.preventDefault();
                     }}
+                    onDragStart={(e) => {
+                      handleDrag(e, item.title as navElementItems);
+
+                      //removing default drag element
+                      const newImage = new Image();
+                      newImage.src =
+                        "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
+                      e.dataTransfer.setDragImage(newImage, 0, 0);
+                    }}
+                    draggable={true}
                     className="px-2.5 md:px-2 bg-sidebar border-sidebar-border border-2 text-chart-1 hover:bg-border cursor-pointer  justify-center"
                   >
                     <item.icon className="text-destructive" />
@@ -107,7 +124,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>{/* <NavUser user={data.user} /> */}</SidebarFooter>
     </Sidebar>
   );
 }

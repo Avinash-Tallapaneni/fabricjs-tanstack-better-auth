@@ -6,6 +6,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 import appCss from "@/styles/app.css?url";
 import { Toaster } from "@/components/ui/sonner";
+import { scan } from "react-scan";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -53,6 +54,12 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  React.useEffect(() => {
+    scan({
+      enabled: true,
+    });
+  }, []);
+
   return (
     <html>
       <head>

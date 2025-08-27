@@ -1,71 +1,21 @@
 import { cn } from "@/lib/utils";
-import React, { useEffect, useRef, useState } from "react";
 
-interface DotPatternProps extends React.SVGProps<SVGSVGElement> {
-  width?: number;
-  height?: number;
-  cx?: number;
-  cy?: number;
-  cr?: number;
-  className?: string;
-}
+// https://ui.aceternity.com/components/grid-and-dot-backgrounds
 
-export function DotPatternStatic({
-  width = 20,
-  height = 20,
-  cx = 1,
-  cy = 1,
-  cr = 1,
+export function DotPatternStaticBackground({
   className,
-  ...props
-}: DotPatternProps) {
-  const containerRef = useRef<SVGSVGElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const { width, height } = containerRef.current.getBoundingClientRect();
-        setDimensions({ width, height });
-      }
-    };
-
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
-
-  const cols = Math.ceil(dimensions.width / width);
-  const rows = Math.ceil(dimensions.height / height);
-
-  const dots = Array.from({ length: cols * rows }, (_, i) => {
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-    return {
-      x: col * width + cx,
-      y: row * height + cy,
-    };
-  });
-
+}: {
+  className?: string;
+}) {
   return (
-    <svg
-      ref={containerRef}
-      aria-hidden="true"
+    <div
       className={cn(
-        "pointer-events-none absolute inset-0 h-full w-full text-neutral-400/80",
+        "absolute inset-0 pointer-events-none z-0",
+        "[background-size:20px_20px]",
+        "[background-image:radial-gradient(currentColor_1px,transparent_1px)]",
+        "text-neutral-300 dark:text-neutral-700", // Color of the dots
         className
       )}
-      {...props}
-    >
-      {dots.map((dot, index) => (
-        <circle
-          key={`${dot.x}-${dot.y}-${index}`}
-          cx={dot.x}
-          cy={dot.y}
-          r={cr}
-          fill="currentColor"
-        />
-      ))}
-    </svg>
+    />
   );
 }
