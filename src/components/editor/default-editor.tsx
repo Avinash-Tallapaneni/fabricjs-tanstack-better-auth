@@ -88,6 +88,7 @@ const DefaultEditor = ({
           fill: getCSSVariable("--foreground"),
           editable: true,
           width: PREVIEW_SIZES["Text"].width,
+          height: PREVIEW_SIZES["Text"].height,
         });
         break;
 

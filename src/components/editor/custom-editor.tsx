@@ -5,6 +5,7 @@ import { DotPatternStaticBackground } from "./dot-pattern";
 import { navElementItems } from "../sidebar/app-sidebar";
 import { PREVIEW_SIZES } from "@/constants";
 import { getCSSVariable } from "@/hooks/getCSSVariable";
+import { applyCustomControls } from "@/hooks/applyCustomControls";
 
 const SCALING_X = 0.85;
 const SCALING_Y = 0.95;
@@ -88,6 +89,8 @@ const CustomEditor = ({
           fill: getCSSVariable("--foreground"),
           editable: true,
           width: PREVIEW_SIZES["Text"].width,
+          height: PREVIEW_SIZES["Text"].height,
+          borderColor: getCSSVariable("--chart-2"),
         });
         break;
 
@@ -98,6 +101,7 @@ const CustomEditor = ({
           fill: getCSSVariable("--primary"),
           width: PREVIEW_SIZES["Rectangle"].width,
           height: PREVIEW_SIZES["Rectangle"].height,
+          borderColor: getCSSVariable("--chart-2"),
         });
         break;
 
@@ -109,6 +113,7 @@ const CustomEditor = ({
           width: PREVIEW_SIZES["Circle"].width,
           height: PREVIEW_SIZES["Circle"].height,
           radius: PREVIEW_SIZES["Circle"].height / 2,
+          borderColor: getCSSVariable("--chart-2"),
         });
         break;
 
@@ -121,6 +126,7 @@ const CustomEditor = ({
           height: PREVIEW_SIZES["Button"].height,
           rx: 6,
           ry: 6,
+          borderColor: getCSSVariable("--chart-2"),
         });
         break;
 
@@ -134,6 +140,7 @@ const CustomEditor = ({
           textAlign: "center",
           width: PREVIEW_SIZES["Video"].width,
           height: PREVIEW_SIZES["Video"].height,
+          borderColor: getCSSVariable("--chart-2"),
         });
         break;
 
@@ -142,6 +149,7 @@ const CustomEditor = ({
     }
 
     if (obj) {
+      applyCustomControls(obj);
       fabricCanvasRef.current.add(obj);
       fabricCanvasRef.current.setActiveObject(obj);
       fabricCanvasRef.current.renderAll();

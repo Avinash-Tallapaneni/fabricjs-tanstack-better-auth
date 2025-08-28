@@ -29,28 +29,34 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 const navMainData = [
   {
-    title: "Text",
-    icon: Type,
-  },
-  {
-    title: "Image",
-    icon: ImageIcon,
-  },
-  {
     title: "Rectangle",
     icon: Square,
+    disabled: false,
+  },
+  {
+    title: "Text",
+    icon: Type,
+    disabled: false,
   },
   {
     title: "Circle",
     icon: Circle,
+    disabled: false,
   },
   {
     title: "Button",
     icon: MousePointerClick,
+    disabled: false,
   },
   {
     title: "Video",
     icon: Video,
+    disabled: false,
+  },
+  {
+    title: "Image",
+    icon: ImageIcon,
+    disabled: true,
   },
 ] as const;
 
@@ -112,8 +118,11 @@ export function AppSidebar({ handleDrag, ...props }: AppSidebarProps) {
                         "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
                       e.dataTransfer.setDragImage(newImage, 0, 0);
                     }}
-                    draggable={true}
-                    className="px-2.5 md:px-2 bg-sidebar border-sidebar-border border-2 text-chart-1 hover:bg-border cursor-pointer  justify-center"
+                    draggable={item.disabled ? false : true}
+                    disabled={item.disabled ? true : false}
+                    className={`px-2.5 md:px-2 bg-sidebar border-sidebar-border border-2 text-chart-1 hover:bg-border ${
+                      item.disabled ? "cursor-not-allowed" : "cursor-pointer"
+                    }  justify-center`}
                   >
                     <item.icon className="text-destructive" />
                     {/* <span>{item.title}</span> */}
