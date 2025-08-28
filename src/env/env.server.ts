@@ -10,7 +10,7 @@ dotenv.config();
 export const serverEnv = createEnv({
   server: {
     BETTER_AUTH_SECRET: z.string().min(32),
-    BASE_URL: z.string(),
+    VITE_BASE_URL: z.string(),
     AUTH_DRIZZLE_URL: z.string(),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),

@@ -70,7 +70,7 @@ AUTH_DRIZZLE_URL="your_postgresql_connection_string"
 
 # Authentication
 BETTER_AUTH_SECRET="your_auth_secret_32_chars_min"
-BASE_URL="http://localhost:3000"
+VITE_BASE_URL="http://localhost:3000"
 
 # Social Providers
 GOOGLE_CLIENT_ID="your_google_oauth_client_id"

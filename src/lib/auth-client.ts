@@ -6,7 +6,7 @@ import { toast } from "sonner";
 // if backend is on a diff domain then change the baseUrl to that. since this is a tanstack same origin
 
 export const authClient = createAuthClient({
-  baseURL: clientEnv.PUBLIC_BASE_URL,
+  baseURL: clientEnv.VITE_BASE_URL,
   fetchOptions: {
     onError(e) {
       if (e.error.status === 429) {

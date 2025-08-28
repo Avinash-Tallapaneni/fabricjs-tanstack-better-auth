@@ -10,9 +10,8 @@ import {
   Lock,
   Palette,
   Shield,
-  Zap,
   Sparkles,
-  Heart,
+  Zap,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -336,7 +335,7 @@ export function SignInForm() {
                 Email: demo@example.com
               </span>
               <span className="block text-muted-foreground">
-                Password: demo123
+                Password: demo@example.com
               </span>
             </p>
           </div>

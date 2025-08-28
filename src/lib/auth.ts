@@ -9,7 +9,7 @@ import { reactStartCookies } from "better-auth/react-start";
 // https://www.better-auth.com/docs/installation#create-client-instance
 
 export const auth = betterAuth({
-  baseURL: clientEnv.PUBLIC_BASE_URL,
+  baseURL: clientEnv.VITE_BASE_URL,
   database: drizzleAdapter(db, {
     provider: "pg", // or "mysql", "sqlite"
   }),
