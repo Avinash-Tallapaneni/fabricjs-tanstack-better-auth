@@ -1,6 +1,6 @@
 import { DragPreviewProps } from "@/routes/editor";
 import * as fabric from "fabric";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DotPatternStaticBackground } from "./dot-pattern";
 import { navElementItems } from "../sidebar/app-sidebar";
 import { PREVIEW_SIZES } from "@/constants";
@@ -19,6 +19,7 @@ const DefaultEditor = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const fabricCanvasRef = useRef<fabric.Canvas | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   const handleResize = () => {
     if (!containerRef.current) return;
@@ -148,7 +149,7 @@ const DefaultEditor = ({
   };
 
   useEffect(() => {
-    if (!canvasRef.current || !containerRef.current) return;
+    if (!canvasRef.current || !containerRef.current || !isMounted) return;
 
     fabricCanvasRef.current = new fabric.Canvas(canvasRef.current, {
       width: containerRef.current.clientWidth * SCALING_X,
@@ -164,6 +165,14 @@ const DefaultEditor = ({
         fabricCanvasRef.current.dispose();
         window.removeEventListener("resize", handleResize);
       }
+    };
+  }, [isMounted]);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    return () => {
+      setIsMounted(false);
     };
   }, []);
 
@@ -182,11 +191,12 @@ const DefaultEditor = ({
         onDragOver={handleDragOver}
         onDrag={handleDrag}
       >
-        <canvas
-          ref={canvasRef}
-          className="block h-full w-full border-border rounded-2xl"
-          style={{ borderWidth: "1px" }}
-        />
+        {isMounted && (
+          <canvas
+            ref={canvasRef}
+            className="block h-full w-full border-primary rounded-2xl border-2"
+          />
+        )}
 
         {dragPreview.visible && dragPreview.type && (
           <div
