@@ -7,6 +7,7 @@ import * as React from "react";
 import appCss from "@/styles/app.css?url";
 import { Toaster } from "@/components/ui/sonner";
 import { scan } from "react-scan";
+import Stats from "stats.js";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -55,9 +56,35 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
+    //stas.js for production
+    const stats = new Stats();
+    stats.showPanel(0);
+
+    stats.dom.style.position = "fixed";
+    stats.dom.style.top = "0px";
+    stats.dom.style.right = "20px";
+    stats.dom.style.left = "";
+    stats.dom.style.bottom = "";
+    stats.dom.style.zIndex = "9999";
+
+    document.body.appendChild(stats.dom);
+
+    const animate = () => {
+      stats.begin();
+      stats.end();
+      requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+
+    // react scan for dev
     scan({
       enabled: true,
     });
+
+    return () => {
+      document.body.removeChild(stats.dom);
+    };
   }, []);
 
   return (
